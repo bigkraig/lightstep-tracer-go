@@ -114,13 +114,13 @@ func CreateTracer(opts Options) (Tracer, error) {
 	}
 
 	attributes := map[string]string{}
-	for k, v := range opts.Tags {
-		attributes[k] = fmt.Sprint(v)
-	}
-	// Don't let the GrpcOptions override these values. That would be confusing.
+	// Let the GrpcOptions override these values. I know what I am doing.
 	attributes[TracerPlatformKey] = TracerPlatformValue
 	attributes[TracerPlatformVersionKey] = runtime.Version()
 	attributes[TracerVersionKey] = TracerVersionValue
+	for k, v := range opts.Tags {
+		attributes[k] = fmt.Sprint(v)
+	}
 
 	tracerID := genSeededGUID()
 	now := time.Now()
